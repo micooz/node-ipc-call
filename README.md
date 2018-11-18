@@ -6,7 +6,11 @@
 [![Travis](https://img.shields.io/travis/node-ipc-call/node-ipc-call.svg)](https://travis-ci.org/micooz/node-ipc-call)
 [![Coverage](https://img.shields.io/codecov/c/github/micooz/node-ipc-call/master.svg)](https://codecov.io/gh/micooz/node-ipc-call)
 
-> Non-blocking cross-process method call based on IPC for Node.js.
+Non-blocking cross-process method call based on IPC for Node.js.
+
+```
+$ npm install --save node-ipc-call
+```
 
 ## Usage
 
