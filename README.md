@@ -20,7 +20,7 @@ const { Caller } = require('node-ipc-call');
 const invoker = Caller.fork('./foo.js');
 
 await invoker.invoke('sleep', 1000);
-await invoker.invoke('max', 1, 2, 3); // 3
+await invoker.invoke('max', [1, 2, 3]); // 3
 
 invoker.destroy();
 ```
@@ -48,58 +48,67 @@ callee.listen();
 
 ## API
 
-### Class: Caller
+## Class: Caller
 
 Added in: v0.0.1
 
-**Caller.fork(modulePath, args, options)**
+### Caller.fork(modulePath, args, options)
 
 Added in: v0.0.1
 
 * `Caller.fork()` take the same parameters of [child_process.fork()](https://nodejs.org/dist/latest-v11.x/docs/api/child_process.html#child_process_child_process_fork_modulepath_args_options).
 
-Returns `<Invoker>`.
+Returns **<Invoker>**.
 
-### Class: Invoker
+## Class: Invoker
 
 Added in: v0.0.1
 
 Returned by `Caller.fork()`, you should make remote function calls via `Invoker`.
 
-**invoker.invoke(name, ...args)**
+### invoker.invoke(name, args[, options])
 
 Added in: v0.0.1
 
-* **name** `<String>` The remote function name.
-* **...args** Arguments passed to the remote function.
+- `name` {String} The remote function name.
+- `args` {Array} Arguments passed to the remote function.
+- `options` {Object}
+  - `timeout` {Number} In milliseconds. Default: 3000.
 
 Returns `<Promise>`.
 
-**invoker.destroy()**
+### invoker.destroy()
 
 Added in: v0.0.1
 
 Closes the IPC channel to child process, and rejects all pending calls. 
 
-### Class: Callee
+## Class: Callee
 
 Added in: v0.0.1
 
-**callee.register(arg)**
+### callee.register(arg)
 
 Added in: v0.0.1
 
-* **arg** `<Function>|<Object>|<Array>` The functions or an array of functions exposed to remote call.
+* `arg` {Function|Object|Array} The functions or an array of functions exposed to remote call.
 
-Each function to be registered should have an unique name, register the same function multiple times is ok.
+Each function to be registered should **have an unique name**, register the same function multiple times is ok.
 
-**callee.listen()**
+```js
+callee.register(function foo() {});
+callee.register({ foo() {} });
+callee.register([ foo, bar ]);
+callee.register(() => {}); // Error
+```
+
+### callee.listen()
 
 Added in: v0.0.1
 
 Starts to listen for method calls from parent process.
 
-**callee.destroy()**
+### callee.destroy()
 
 Added in: v0.0.1
 

@@ -68,7 +68,7 @@ test('_onMessage() should send message which status is MSG_STATUS_OK', async () 
   const callee = new Callee();
   callee.register({ foo: () => 'foo return' });
   const send = mockProcessSend();
-  await callee._onMessage({ name: 'foo' });
+  await callee._onMessage({ name: 'foo', args: null });
   expect(send).toHaveBeenCalledWith({
     "_seq": undefined,
     "_status": Callee.MSG_STATUS_OK,
@@ -92,4 +92,17 @@ test('_onMessage() should send message which status is MSG_STATUS_FAIL', async (
     "name": "foo",
     "payload": "foo throw"
   });
+});
+
+test('_onError() specific errors should do nothing', () => {
+  const callee = new Callee();
+  const errors = [{ code: 'ERR_IPC_CHANNEL_CLOSED' }];
+  for (const err of errors) {
+    expect(callee._onError(err)).toBe(undefined);
+  }
+});
+
+test('_onError() other errors should throw it', () => {
+  const callee = new Callee();
+  expect(() => callee._onError({ code: 'UNKNOWN_ERROR_CODE' })).toThrow();
 });
