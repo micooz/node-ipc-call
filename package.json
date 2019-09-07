@@ -1,6 +1,6 @@
 {
   "name": "node-ipc-call",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Non-blocking cross-process method call based on IPC for Node.js",
   "main": "lib/index.js",
   "files": [
@@ -10,7 +10,7 @@
     "test": "jest --coverage"
   },
   "devDependencies": {
-    "jest": "^24.8.0"
+    "jest": "^24.9.0"
   },
   "repository": {
     "url": "https://github.com/micooz/node-ipc-call",
